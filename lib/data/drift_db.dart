@@ -22,12 +22,10 @@ class Posts extends Table {
 //this annotation tells drift to prepare a database class uses the
 // table we just defined (Posts).
 @DriftDatabase(tables: [Posts])
-
+class JournalDatabase extends _$JournalDatabase {
 //STEP 4 -
 // Generating the code with dRIFT
-class DriftDatabase extends _$DriftDataBase {
-
-  DriftDatabase() : super(_openConnection());
+  JournalDatabase() : super(_openConnection());
 
 // bump this number whenever you change or add a table definition
   @override
