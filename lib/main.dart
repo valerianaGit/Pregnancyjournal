@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'screens/home_page.dart';
 import 'package:pregnancy_journal_m1/models/journal_entry_data.dart';
+import 'package:pregnancy_journal_m1/data/drift_db.dart'; // STEP 1 - USE DRIFT WITH PROVIDER - IMPORT 
 
 void main() {
   runApp(const MyApp());
@@ -13,8 +14,8 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<JournalEntryData>(
-      create: (context) => JournalEntryData(),
+    return Provider<JournalDatabase>( // STEP 2 - USE DRIFT WITH PROVIDER - use database type at root  
+      create: (context) => JournalDatabase(), // STEP 3 - USE DRIFT WITH PROVIDER - create db object for context
       child: MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
@@ -22,6 +23,7 @@ class MyApp extends StatelessWidget {
         ),
         home: const MyHomePage(),
       ),
+       dispose: (context, db) => db.close(), // STEP 4 - USE DRIFT WITH PROVIDER - dispose / close db after material app
     );
   }
 }
