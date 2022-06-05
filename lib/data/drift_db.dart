@@ -27,6 +27,12 @@ class JournalDatabase extends _$JournalDatabase {
 // Generating the code with dRIFT
   JournalDatabase() : super(_openConnection());
 
+  // QUERIES
+  Future<List<Post>> getAllPosts() => select(posts).get();
+  Stream<List<Post>> watchAllPosts() => select(posts).watch();
+  Future insertNewPost(Post post) => into(posts).insert(post);
+  Future deleteOrder(Post post) => delete(posts).delete(post);
+
 // bump this number whenever you change or add a table definition
   @override
   int get schemaVersion => 1;
@@ -39,6 +45,7 @@ LazyDatabase _openConnection() {
     // for your app.
     final dbFolder = await getApplicationDocumentsDirectory();
     final file = File(p.join(dbFolder.path, 'db.sqlite'));
-    return NativeDatabase(file, logStatements: true); // STEP 5 - SET logs to true 
+    return NativeDatabase(file,
+        logStatements: true); // STEP 5 - SET logs to true
   });
 }
