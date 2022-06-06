@@ -28,9 +28,15 @@ class JournalDatabase extends _$JournalDatabase {
   JournalDatabase() : super(_openConnection());
 
   // QUERIES
-  Future<List<Post>> getAllPosts() => select(posts).get();
-  Stream<List<Post>> watchAllPosts() => select(posts).watch();
+  //CREATE
   Future insertNewPost(Post post) => into(posts).insert(post);
+  //READ
+  Future<List<Post>> getAllPosts() => select(posts).get();
+  Stream<List<Post>> watchAllPosts() => select(posts).watch(); //not needed?
+
+//UPDATE
+
+//DELETE
   Future deleteOrder(Post post) => delete(posts).delete(post);
 
 // bump this number whenever you change or add a table definition
