@@ -1,8 +1,11 @@
+import 'package:drift/drift.dart';
 import 'package:flutter/material.dart';
+import 'package:path/path.dart';
 import 'package:provider/provider.dart';
 import 'package:pregnancy_journal_m1/models/journal_entry_data.dart';
 import 'package:pregnancy_journal_m1/constants/constants.dart';
 import 'package:pregnancy_journal_m1/constants/strings.dart';
+import 'package:pregnancy_journal_m1/data/drift_db.dart'; //DRIFT USE QUERIES - STEP 1 - IMPORT DB
 
 //TODO: UPDATE Journal entry screen as statfeul widget since NEWCONTENT needs to mutate?
 
@@ -23,9 +26,11 @@ import 'package:pregnancy_journal_m1/constants/strings.dart';
 class JournalEntryScreen extends StatelessWidget {
   String newContent = '';
   String incomingText = '';
- JournalEntryScreen({this.incomingText = ''});
+  JournalEntryScreen({this.incomingText = ''});
+
   @override
   Widget build(BuildContext context) {
+    final database = Provider.of<JournalDatabase>(context);
     return Scaffold(
       appBar: AppBar(
         title: const Text(post),
@@ -38,8 +43,7 @@ class JournalEntryScreen extends StatelessWidget {
               const SizedBox(
                 height: 50.0,
               ),
-              const Text(feelingsDesires,
-                  style: ktitleTextStyle),
+              const Text(feelingsDesires, style: ktitleTextStyle),
               const SizedBox(
                 height: 50.0,
               ),
@@ -54,7 +58,7 @@ class JournalEntryScreen extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          toPressOrNotToPress(context);
+          toPressOrNotToPress(context, database);
         },
         tooltip: doneEditing,
         child: const Icon(Icons.check),
@@ -93,10 +97,9 @@ class JournalEntryScreen extends StatelessWidget {
     }
   }
 
-  void toPressOrNotToPress(BuildContext context) {
+  void toPressOrNotToPress(BuildContext context, JournalDatabase database) {
     if (incomingText == '' && newContent != '') {
-      Provider.of<JournalEntryData>(context, listen: false)
-          .addAnotherEntry(newContent);
+      database.insertNewCompanionPost(PostsCompanion(content: Value(newContent), date: Value(DateTime.now())));
       Navigator.pop(context);
     } else {
       Navigator.pop(context);
