@@ -33,12 +33,17 @@ class JournalDatabase extends _$JournalDatabase {
   // QUERIES
   //CREATE
   Future insertNewPost(Post post) => into(posts).insert(post);
+  //Create using post companion -  to create post since id is an autoincrement and cannot be entered manually
+  Future<int> insertNewCompanionPost(PostsCompanion post) =>
+      into(posts).insert(post);
   //READ
   Future<List<Post>> getAllPosts() => select(posts).get();
-  Stream<List<Post>> watchAllPosts() => select(posts).watch(); //automatically emits new values when underlying table changes - not needed?
+  //Future<List<Post>> getAllPosts() => select(posts).get();
+  Stream<List<Post>> watchAllPosts() => select(posts)
+      .watch(); //automatically emits new values when underlying table changes - not needed?
 
 //UPDATE
-Future updateNewPost(Post post) => update(posts).replace(post);
+  Future updateNewPost(Post post) => update(posts).replace(post);
 //DELETE
   Future deletePost(Post post) => delete(posts).delete(post);
 }
