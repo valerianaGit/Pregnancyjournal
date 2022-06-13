@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'screens/home_page.dart';
-import 'package:pregnancy_journal_m1/models/journal_entry_data.dart';
 import 'package:pregnancy_journal_m1/data/drift_db.dart'; // STEP 1 - USE DRIFT WITH PROVIDER - IMPORT 
 
 void main() {
