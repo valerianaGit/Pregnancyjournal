@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-// import 'package:path/path.dart';
 import 'package:provider/provider.dart';
 import 'package:pregnancy_journal_m1/constants/constants.dart';
 import 'package:pregnancy_journal_m1/constants/strings.dart';
