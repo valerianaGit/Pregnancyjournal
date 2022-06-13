@@ -21,11 +21,11 @@ class _EntriesListState extends State<EntriesList> {
     //STEP 1 - CREATE DATABASE INSTANCE
     final database = Provider.of<JournalDatabase>(context);
   // STEP 2 - FETCH FUTURE LIST 
-  Future<List<Post>> entries = database.getAllPosts();
+  Stream<List<Post>> entries = database.watchAllPosts();
   //STEP 3 - USE FUTURE BUILDER
-  return FutureBuilder( 
+  return StreamBuilder( 
     //STEP 3.A . PASS THE FUTURE LIST FROM DATABASE
-    future: entries, 
+    stream: entries, 
     //STEP 3.B . PASS A BUILD CONTEXT , 
     //SNAPSHOT IS THE DATA (OR LACK THEREOFF) 
     builder: (BuildContext context, AsyncSnapshot<List<Post>> snapshot) {
