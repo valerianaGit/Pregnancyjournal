@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pregnancy_journal_m1/widgets/journal_cards.dart';
 import 'package:pregnancy_journal_m1/data/drift_db.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 
 class EntriesList extends StatefulWidget {
   const EntriesList({Key? key}) : super(key: key);
@@ -34,12 +35,34 @@ return ListView.builder(
           itemBuilder: (context, index) {
    //STEP4.A - IF WE GET DATA     
 if (snapshot.hasData) {
-           return JournalCard(
-             //NOTE: USING THE BANG OPERATOR HERE IS SAFE ENOUGH BECAUSE WE CHECK IF SNAPSHOT HAS DATA
-             // THE BANG OPERATOR IS FORCE UNWRAPPING, VERY DANGEROUS TO USE IN MOST CONDITIONS
-              content: snapshot.data![index].content ?? 'No data today',
-              date: snapshot.data![index].date ?? DateTime.now(),
-            );
+           return Slidable(
+                    // Specify a key if the Slidable is dismissible.
+        key: const ValueKey(0),
+        // The start action pane is the one at the left or the top side.
+        endActionPane: ActionPane(
+          // A motion is a widget used to control how the pane animates.
+          motion: const StretchMotion(),
+
+          // All actions are defined in the children parameter.
+          children: [
+            // A SlidableAction can have an icon and/or a label.
+            SlidableAction(
+              onPressed: (context) => deletePost(context, database, snapshot.data![index]),
+              autoClose: true,
+              backgroundColor: const Color(0xFFFE4A49),
+              foregroundColor: Colors.white,
+              icon: Icons.delete,
+              label: 'Delete',
+            ),
+          ],
+        ),
+             child: JournalCard(
+               //NOTE: USING THE BANG OPERATOR HERE IS SAFE ENOUGH BECAUSE WE CHECK IF SNAPSHOT HAS DATA
+               // THE BANG OPERATOR IS FORCE UNWRAPPING, VERY DANGEROUS TO USE IN MOST CONDITIONS
+                content: snapshot.data![index].content ?? 'No data today',
+                date: snapshot.data![index].date ?? DateTime.now(),
+              ),
+           );
 //STEP4.B - IF WE GET ERROR
           } else if (snapshot.hasError) {
              return JournalCard(
@@ -58,5 +81,8 @@ if (snapshot.hasData) {
         );
     } 
   );
+  }
+   void deletePost(BuildContext context, JournalDatabase database, Post post) {
+    database.deletePost(post);
   }
 }
