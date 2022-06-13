@@ -20,11 +20,11 @@ class _EntriesListState extends State<EntriesList> {
   Widget build(BuildContext context) {
     //STEP 1 - CREATE DATABASE INSTANCE
     final database = Provider.of<JournalDatabase>(context);
-  // STEP 2 - FETCH FUTURE LIST 
+  // STEP 2 - FETCH STREAM LIST 
   Stream<List<Post>> entries = database.watchAllPosts();
-  //STEP 3 - USE FUTURE BUILDER
+  //STEP 3 - USE STREAM BUILDER
   return StreamBuilder( 
-    //STEP 3.A . PASS THE FUTURE LIST FROM DATABASE
+    //STEP 3.A . PASS THE STREAM LIST FROM DATABASE
     stream: entries, 
     //STEP 3.B . PASS A BUILD CONTEXT , 
     //SNAPSHOT IS THE DATA (OR LACK THEREOFF) 
