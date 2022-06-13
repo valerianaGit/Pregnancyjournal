@@ -35,8 +35,8 @@ return ListView.builder(
    //STEP4.A - IF WE GET DATA     
 if (snapshot.hasData) {
            return JournalCard(
-             //NOTE: USING THE BANG OPERATOR HERE, IS SAFE ENOUGH BECAUSE WE CHECK IF SNAPSHOT HAS DATA
-             // YET THE BANG OPERATOR IS FORCE UNWRAPPING AND VERY DANGEROUS TO USE IN MOST CONDITIONS
+             //NOTE: USING THE BANG OPERATOR HERE IS SAFE ENOUGH BECAUSE WE CHECK IF SNAPSHOT HAS DATA
+             // THE BANG OPERATOR IS FORCE UNWRAPPING, VERY DANGEROUS TO USE IN MOST CONDITIONS
               content: snapshot.data![index].content ?? 'No data today',
               date: snapshot.data![index].date ?? DateTime.now(),
             );
