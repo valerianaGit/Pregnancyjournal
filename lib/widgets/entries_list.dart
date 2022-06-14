@@ -47,7 +47,7 @@ if (snapshot.hasData) {
           children: [
             // A SlidableAction can have an icon and/or a label.
             SlidableAction(
-              onPressed: (context) => deletePost(context, database, snapshot.data![index]),
+              onPressed: (context) => deletePost(context, database, snapshot.data![index]), // note function call, GOTCHA!
               autoClose: true,
               backgroundColor: const Color(0xFFFE4A49),
               foregroundColor: Colors.white,
