@@ -26,10 +26,26 @@ class JournalDatabase extends _$JournalDatabase {
 //STEP 4 -
 // Generating the code with dRIFT
   JournalDatabase() : super(_openConnection());
-
 // bump this number whenever you change or add a table definition
   @override
   int get schemaVersion => 1;
+
+  // QUERIES
+  //CREATE
+  Future insertNewPost(Post post) => into(posts).insert(post);
+  //Create using post companion -  to create post since id is an autoincrement and cannot be entered manually
+  Future<int> insertNewCompanionPost(PostsCompanion post) =>
+      into(posts).insert(post);
+  //READ
+  Future<List<Post>> getAllPosts() => select(posts).get();
+  //Future<List<Post>> getAllPosts() => select(posts).get();
+  Stream<List<Post>> watchAllPosts() => select(posts)
+      .watch(); //automatically emits new values when underlying table changes - not needed?
+
+//UPDATE
+  Future updateNewPost(Post post) => update(posts).replace(post);
+//DELETE
+  Future deletePost(Post post) => delete(posts).delete(post);
 }
 
 LazyDatabase _openConnection() {
@@ -39,6 +55,7 @@ LazyDatabase _openConnection() {
     // for your app.
     final dbFolder = await getApplicationDocumentsDirectory();
     final file = File(p.join(dbFolder.path, 'db.sqlite'));
-    return NativeDatabase(file);
+    return NativeDatabase(file,
+        logStatements: true); // STEP 5 - SET logs to true
   });
 }

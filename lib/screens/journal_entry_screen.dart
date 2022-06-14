@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:pregnancy_journal_m1/models/journal_entry_data.dart';
 import 'package:pregnancy_journal_m1/constants/constants.dart';
 import 'package:pregnancy_journal_m1/constants/strings.dart';
-
+import 'package:pregnancy_journal_m1/data/drift_db.dart'; //DRIFT USE QUERIES - STEP 1 - IMPORT DB
+import 'package:drift/drift.dart' hide Column;
 //TODO: UPDATE Journal entry screen as statfeul widget since NEWCONTENT needs to mutate?
 
 // class JournalEntryScreen extends StatefulWidget {
@@ -23,43 +23,51 @@ import 'package:pregnancy_journal_m1/constants/strings.dart';
 class JournalEntryScreen extends StatelessWidget {
   String newContent = '';
   String incomingText = '';
- JournalEntryScreen({this.incomingText = ''});
+  // ignore: use_key_in_widget_constructors
+  JournalEntryScreen({this.incomingText = ''});
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text(post),
-      ),
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Column(
-            children: [
-              const SizedBox(
-                height: 50.0,
+    final database = Provider.of<JournalDatabase>(context);
+    return Provider<JournalDatabase>(
+      create: (context) => JournalDatabase(),
+      
+        child: Scaffold(
+            appBar: AppBar(
+              title: const Text(post),
+            ),
+            body: SafeArea(
+              child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Column(
+                  children: [
+                    const SizedBox(
+                      height: 50.0,
+                    ),
+                    const Text(feelingsDesires, style: ktitleTextStyle),
+                    const SizedBox(
+                      height: 50.0,
+                    ),
+                    Theme(
+                      data: ThemeData(
+                          primaryColor: Colors.teal, primaryColorDark: Colors.teal),
+                      child: getWidget(),
+                    ),
+                  ],
+                ),
               ),
-              const Text(feelingsDesires,
-                  style: ktitleTextStyle),
-              const SizedBox(
-                height: 50.0,
-              ),
-              Theme(
-                data: ThemeData(
-                    primaryColor: Colors.teal, primaryColorDark: Colors.teal),
-                child: getWidget(),
-              ),
-            ],
+            ),
+            floatingActionButton: FloatingActionButton(
+              onPressed: () {
+                toPressOrNotToPress(context, database);
+              },
+              tooltip: doneEditing,
+              child: const Icon(Icons.check),
+            ),
           ),
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          toPressOrNotToPress(context);
-        },
-        tooltip: doneEditing,
-        child: const Icon(Icons.check),
-      ),
+
     );
+  
   }
 
   Widget getWidget() {
@@ -93,10 +101,10 @@ class JournalEntryScreen extends StatelessWidget {
     }
   }
 
-  void toPressOrNotToPress(BuildContext context) {
+  void toPressOrNotToPress(BuildContext context, JournalDatabase database) {
     if (incomingText == '' && newContent != '') {
-      Provider.of<JournalEntryData>(context, listen: false)
-          .addAnotherEntry(newContent);
+      database.insertNewCompanionPost(PostsCompanion(
+          content: Value(newContent), date: Value(DateTime.now())));
       Navigator.pop(context);
     } else {
       Navigator.pop(context);

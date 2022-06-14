@@ -12,6 +12,7 @@ class JournalCard extends StatelessWidget {
   final String content;
   final DateTime date;
 
+  // ignore: use_key_in_widget_constructors
   const JournalCard({required this.content, required this.date});
   //format dates 
 //https://flutteragency.com/how-to-format-datetime-in-flutter/
