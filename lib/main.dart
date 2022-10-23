@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'screens/home_page.dart';
-import 'package:pregnancy_journal_m1/data/drift_db.dart'; // STEP 1 - USE DRIFT WITH PROVIDER - IMPORT 
+import 'package:pregnancy_journal_m1/data/drift_db.dart'; // STEP 1 - USE DRIFT WITH PROVIDER - IMPORT
 
 void main() {
   runApp(const MyApp());
@@ -13,8 +13,10 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return Provider<JournalDatabase>( // STEP 2 - USE DRIFT WITH PROVIDER - use database type at root  
-      create: (context) => JournalDatabase(), // STEP 3 - USE DRIFT WITH PROVIDER - create db object for context
+    return Provider<JournalDatabase>(
+      // STEP 2 - USE DRIFT WITH PROVIDER - use database type at root
+      create: (context) =>
+          JournalDatabase(), // STEP 3 - USE DRIFT WITH PROVIDER - create db object for context
       child: MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
@@ -22,7 +24,8 @@ class MyApp extends StatelessWidget {
         ),
         home: const MyHomePage(),
       ),
-       dispose: (context, db) => db.close(), // STEP 4 - USE DRIFT WITH PROVIDER - dispose / close db after material app
+      dispose: (context, db) => db
+          .close(), // STEP 4 - USE DRIFT WITH PROVIDER - dispose / close db after material app
     );
   }
 }
@@ -43,6 +46,7 @@ class MyApp extends StatelessWidget {
  * 
  *      Tips 
  * //makes textfield scrollable - wrap in Expanded widget + maxlines = null 
+ * -> https://dev.to/valerianagit/flutter-create-a-scrollable-text-and-textfield-widgets-obp
   //scrollable Text - > wrap in SingleChildScrollView -> wrap that in Expanded 
  * 
  */
