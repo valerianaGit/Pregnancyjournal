@@ -85,6 +85,7 @@ LazyDatabase _openConnection() {
  * 3.a.4.4 delete
  * 
  * Step 4 - Run terminal command to create database.g.dart file
+ * dart run build_runner build
  * 
  * 
  * Step 5 - Use queries in app code to access database 
