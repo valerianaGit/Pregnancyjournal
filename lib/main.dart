@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
       create: (context) =>
           JournalDatabase(), // STEP 3 - USE DRIFT WITH PROVIDER - create db object for context
       child: MaterialApp(
-        title: 'Flutter Demo',
+        title: 'Pregnancy Journal',
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
